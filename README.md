@@ -9,7 +9,7 @@ This repo contains [Dash](https://dash.plotly.com/) web application for top skil
 
 Below is an example of wordcould output when the selected company and job title is `Amazon` and `business-intelligence`Top skills include Python, SQL, Tableau, data warehousing and data modeling. 
 
-<img src="images/wc.png" width="40%">
+<img src="images/wc.png" width="50%">
 
 ![freq](images/freq.png)
 
