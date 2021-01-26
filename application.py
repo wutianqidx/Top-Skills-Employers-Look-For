@@ -5,6 +5,7 @@ import dash.dependencies as dd
 import dash_core_components as dcc
 import pandas as pd
 import plotly.express as px
+import numpy as np
 from wordcloud import WordCloud
 from io import BytesIO
 
@@ -21,9 +22,8 @@ data = pd.read_table(data_dir, sep = '\t')
 available_companys = ['Amazon']
 
 # Dropdown options for Jobs
-available_jobs = [	'data-science', 'research-science', 'machine-learning-science',
-					'business-intelligence', 'software-development']
-
+JobDict = np.load('data/JobDict.npy',allow_pickle='TRUE').item()
+available_jobs = JobDict.values()
 
 app.layout = html.Div([
     html.H1('Top Skills Preferred for Your Career'),
@@ -74,19 +74,24 @@ def plot_wordcloud(data, selected_job):
                     'such', 'as', 'working', 'the', 'related', 'field' ,'or', 'work', 'for', 'using',
                     'etc', 'other', 'At', 'least', 'similar', 'equivalent', 's', 'on', 'M' ,'one', 'degree',
                     'knowledge', 'building', 'strong', 'skill', 'skills', 'relevant', 'advanced', 'R',
-                    'demonstrated', 'tools', 'proficiency', 'environment', 'technical', 'engineering'}
+                    'demonstrated', 'tools', 'proficiency', 'environment', 'technical', 'engineering', 'an',
+                    'Amazon', 'i', 'Minimum', 'education', 'reporting', 'highly', 'is', 'including', 'detail',
+                    'this', 'role', 'Meets', 'exceeds', 'project', 'able'}
     
     wc = WordCloud(background_color='white', min_font_size = 8, prefer_horizontal = 1, stopwords = my_stopwords)
     wc.generate(selected_qualifications)
     frequencies = wc.process_text(selected_qualifications)
     return wc.to_image(), frequencies
 
+
 @app.callback(dd.Output('image_wc', 'src'), dd.Output('graph-freq', 'figure'), [dd.Input('jobs-dropdown', 'value')])
 def make_image(selected_job):
+    # plot wordcloud
     img = BytesIO()
     img_wc, frequencies = plot_wordcloud(data = data, selected_job = selected_job)
     img_wc.save(img, format='PNG')
 
+    # plot frequnency table
     freq_table = pd.DataFrame(frequencies.items(), columns=['Skill', 'Frequency'])
     freq_table = freq_table.sort_values(by='Frequency', ascending=False).reset_index(drop=True)[:20][::-1]
     fig = px.bar(freq_table, x='Frequency', y='Skill', title='Top 20 Skills for ' + selected_job)

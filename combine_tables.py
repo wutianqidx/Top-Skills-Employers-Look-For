@@ -8,7 +8,10 @@ import pandas as pd
 
 data_dirs = ['data/Amazon_DS_Qualifications.txt', 'data/Amazon_RS_Qualifications.txt',
              'data/Amazon_ML_Qualifications.txt', 'data/Amazon_BI_Qualifications.txt',
-             'data/Amazon_SDE_Qualifications.txt']
+             'data/Amazon_FA_Qualifications.txt', 
+             'data/Amazon_Mkt_Qualifications.txt', 'data/Amazon_IT_Qualifications.txt', 
+             'data/Amazon_PM-Non-Tech_Qualifications.txt', 'data/Amazon_PM-Tech_Qualifications.txt',
+             'data/Amazon_HR_Qualifications.txt', 'data/Amazon_SDE_Qualifications.txt']
 
 combined_data = None
 

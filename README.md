@@ -16,16 +16,22 @@ Below is an example of wordcould output when the selected company and job title 
 
 # Dataset
 
-Currently, `Amazon` is the only company studied. The dataset is crawled from [Amazon.jobs](https://www.amazon.jobs/en/). Revelant code can be found on [`crawl_data.py`](./crawl_data.py). Basic and preferred job qualifications are collected and combined into the table below. In total, there are 728 rows and more data can be crawled with following code. 
+Currently, `Amazon` is the only company studied. The dataset is crawled from [Amazon.jobs](https://www.amazon.jobs/en/). Revelant code can be found on [`crawl_data.py`](./crawl_data.py). Basic and preferred job qualifications are collected and combined into the table [`Amazon_Total_Qualifications.txt`](./data/Amazon_Total_Qualifications.txt) and the preview is shown below. In total, there are 1914 rows and more data can be crawled with following code. 
 
     python crawl_data.py --JobTitle 'RS' --JobCount 150
 
-Supported job titles include 
+Supported job titles include
 * 'RS: research-science
 * 'DS': data-science
 * 'ML': machine-learning-science
 * 'BI': business-intelligence
 * 'SDE': software-development.
+* 'PM-Tech': project-program-product-management-technical.
+* 'PM-Non-Tech': project-program-product-management-non-tech.
+* 'FA': finance-accounting.
+* 'Mkt': marketing-pr.
+* 'IT': operations-it-support-engineering.
+* 'HR': human-resources.
 
 
 ![data_table](images/data_table.png)

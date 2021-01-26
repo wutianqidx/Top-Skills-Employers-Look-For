@@ -4,8 +4,10 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from urllib import request
+import numpy as np
 import os
 import argparse
+
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -20,13 +22,22 @@ def get_args():
         'Amazon': 'https://www.amazon.jobs/en/search?offset={}&result_limit=10&sort=relevant&category[]={}&distanceType=Mi&radius=24km&loc_group_id=seattle-metro&latitude=&longitude=&loc_group_id=seattle-metro&loc_query=Greater%20Seattle%20Area%2C%20WA%2C%20United%20States&base_query=&city=&country=&region=&county=&query_options=&'
     }
 
-    args.JobDict = {
+    '''
+    JobDict = {
         'AmazonDS': 'data-science',
         'AmazonRS': 'research-science',
         'AmazonML': 'machine-learning-science',
         'AmazonBI': 'business-intelligence',
-        'AmazonSDE': 'software-development'
+        'AmazonSDE': 'software-development',
+        'AmazonPM-Tech': 'project-program-product-management-technical',
+        'AmazonPM-Non-Tech': 'project-program-product-management-non-tech',
+        'AmazonFA': 'finance-accounting',
+        'AmazonMkt': 'marketing-pr',
+        'AmazonIT': 'operations-it-support-engineering',
+        'AmazonHR': 'human-resources'
     }
+    '''
+    args.JobDict = np.load('data/JobDict.npy',allow_pickle='TRUE').item()
     
     return args
 
@@ -75,7 +86,7 @@ class Top_Skill():
         driver = webdriver.Chrome()
         driver.get(url)
         html = driver.page_source
-        soup = BeautifulSoup(html)
+        soup = BeautifulSoup(html, features="html.parser")
         driver.close()
         
         return soup
@@ -120,7 +131,8 @@ class Top_Skill():
         for link in self.Links:
             requirements, title = self.get_requirements_from_link(link)
             basic_qualification = requirements[1].p.get_text()
-            preferred_qualification = BeautifulSoup(str(requirements[2].p).split('<br/><br/>')[0]).get_text()
+            preferred_qualification = str(requirements[2].p).split('<br/><br/>')[0]
+            preferred_qualification = BeautifulSoup(preferred_qualification, features="html.parser").get_text()
             qualifications.append(self.Company + '\t' + self.JobCategory + '\t' + \
                                   title + '\t' + basic_qualification + '\t' + \
                                   preferred_qualification + '\t' + link)
@@ -138,7 +150,7 @@ class Top_Skill():
         
         response = request.urlopen(link)
         page_source = response.read().decode('utf-8')
-        soup = BeautifulSoup(page_source)
+        soup = BeautifulSoup(page_source, features="html.parser")
         requirements = soup.find_all('div', {'class': 'section'})
         title = soup.find_all('h1', {'class': 'title'})[0].get_text()
         
