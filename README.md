@@ -41,4 +41,3 @@ Supported job titles include
 The web application is depolyed using [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/). Relevant code can be found on [`application.py`](application.py)
 
 
-
